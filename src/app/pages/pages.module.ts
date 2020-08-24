@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 
 import { RouterModule } from "@angular/router";
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { RouterModule } from "@angular/router";
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule /* esta importación es para que funcione routeroutlet, por es no hace falta que sea AppRoutingModule */
+    RouterModule, /* esta importación es para que funcione routeroutlet, por es no hace falta que sea AppRoutingModule */
+    FormsModule /* importado para que el ngmodel del progress funcione */
   ],
   exports: [
     DashboardComponent,
