@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-incrementador',
@@ -6,9 +6,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styles: [
   ]
 })
-export class IncrementadorComponent{
+export class IncrementadorComponent implements OnInit{
+  ngOnInit() {
+    /* this.btnClass = `btn ${this.btnClass}`; si implemento ésto en el Input btnClass solo tendría que pasarle el btn-color */
+  }
 
   @Input('valor') progress: number = 5;
+  @Input() btnClass: string = 'btn btn-primary'
 
   @Output('valor') valorSalida: EventEmitter<number> = new EventEmitter();
 
