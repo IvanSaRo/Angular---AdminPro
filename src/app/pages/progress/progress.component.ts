@@ -15,7 +15,7 @@ export class ProgressComponent implements OnInit {
   progress2: number = 45;
 
   ngOnInit(){
-    console.log(this.getProgress1(), this.getProgress2())
+    
   }
   
   getProgress1(){
