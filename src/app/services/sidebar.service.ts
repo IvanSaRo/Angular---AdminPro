@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class SidebarService {
 
-  menu:any[] = [
+  menu:any[] = 
+  [
     { titulo: 'Dashboard!', 
       icono: 'mdi mdi-gauge', 
       submenu: [
@@ -16,6 +17,7 @@ export class SidebarService {
         { titulo: 'Rxjs', url: 'rxjs'},
       ]}
   ]
+  
   
   
   constructor() { }
