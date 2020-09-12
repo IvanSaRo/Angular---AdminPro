@@ -60,7 +60,7 @@
               type="password"
               required=""
               placeholder="Confirm password"
-              formControlName="reapeatPassword"
+              formControlName="repeatPassword"
             />
           </div>
         </div>
@@ -87,6 +87,9 @@
             </p>
             <p *ngIf="acceptTerms() ">
               * Se deben aceptar los términos legales
+            </p>
+            <p *ngIf="unvalidPasswords() ">
+              * Las contraseñas no coinciden
             </p>
             
           </div>
