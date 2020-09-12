@@ -74,11 +74,8 @@ export class RegisterComponent {
       const pass1Control = formGroup.get(pass1name);
       const pass2Control = formGroup.get(pass2name);
 
-      if (pass1Control.value === pass2Control.value) {
-        pass2Control.setErrors(null)
-      }else{
-        pass2Control.setErrors({notTheSame: true})
-      }
+      (pass1Control.value === pass2Control.value) ? pass2Control.setErrors(null) : pass2Control.setErrors({notTheSame: true});
+      
 
     }
   }
