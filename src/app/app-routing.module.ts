@@ -7,7 +7,7 @@ import { AuthRoutingModule } from './auth/auth.routing';
 import { NopagesfoundComponent } from './nopagesfound/nopagesfound.component';
 
 const routes: Routes = [
- /*  {
+  /*  {
     path: 'dashboard',
     component: PagesComponent,
     children: [
@@ -23,11 +23,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [],
   imports: [
     RouterModule.forRoot(routes),
-    PagesRoutingModule,
     AuthRoutingModule,
+    PagesRoutingModule,
   ],
   exports: [RouterModule],
 })

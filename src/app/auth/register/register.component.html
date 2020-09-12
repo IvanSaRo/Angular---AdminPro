@@ -4,14 +4,16 @@
 <section
   id="wrapper"
   class="login-register login-sidebar"
-  style="background-image: url(../assets/images/background/login-register.jpg);"
+  style="background-image: url(../assets/images/background/login-register.jpg)"
 >
   <div class="login-box card">
     <div class="card-body">
       <form
         class="form-horizontal form-material"
         id="loginform"
-        action="index.html"
+        (ngSubmit)="createUser()"
+        [formGroup]="registerForm"
+        autocomplete="off"
       >
         <a href="javascript:void(0)" class="text-center db"
           ><img src="../assets/images/logo-icon.png" alt="Home" /><br /><img
@@ -25,6 +27,7 @@
               type="text"
               required=""
               placeholder="Username"
+              formControlName="name"
             />
           </div>
         </div>
@@ -35,29 +38,32 @@
               type="email"
               required=""
               placeholder="Email"
+              formControlName="email"
             />
           </div>
         </div>
         <div class="form-group">
-            <div class="col-xs-12">
-              <input
-                class="form-control"
-                type="password"
-                required=""
-                placeholder="Password"
-              />
-            </div>
+          <div class="col-xs-12">
+            <input
+              class="form-control"
+              type="password"
+              required=""
+              placeholder="Password"
+              formControlName="password"
+            />
           </div>
-          <div class="form-group">
-            <div class="col-xs-12">
-              <input
-                class="form-control"
-                type="password"
-                required=""
-                placeholder="Confirm password"
-              />
-            </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12">
+            <input
+              class="form-control"
+              type="password"
+              required=""
+              placeholder="Confirm password"
+              formControlName="reapeatPassword"
+            />
           </div>
+        </div>
         <div class="form-group row">
           <div class="col-md-12">
             <div class="checkbox checkbox-primary pull-left p-t-0">
@@ -65,10 +71,24 @@
                 id="checkbox-signup"
                 type="checkbox"
                 class="filled-in chk-col-light-blue"
+                formControlName="terms"
               />
               <label for="checkbox-signup"> I agree to all terms </label>
             </div>
-         
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-danger">
+            <p *ngIf="fieldInvalid('name')">
+              * El nombre es obligatorio
+            </p>
+            <p *ngIf="fieldInvalid('email')">
+              * El email es obligatorio y tiene que ser válido
+            </p>
+            <p *ngIf="acceptTerms() ">
+              * Se deben aceptar los términos legales
+            </p>
+            
           </div>
         </div>
         <div class="form-group text-center m-t-20">
@@ -81,13 +101,11 @@
             </button>
           </div>
         </div>
-        
+
         <div class="form-group m-b-0">
           <div class="col-sm-12 text-center">
             Already have an account?
-            <a href="pages-register2.html" class="text-primary m-l-5"
-              ><b>Sign In</b></a
-            >
+            <a routerLink="/login" class="text-primary m-l-5"><b>Sign In</b></a>
           </div>
         </div>
       </form>
