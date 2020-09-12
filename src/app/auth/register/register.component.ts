@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-register',
@@ -22,19 +23,27 @@ export class RegisterComponent {
   });
   
   
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private userService: UsuarioService) { }
 
   createUser(){
     this.formSubmitted = true;
     console.log(this.registerForm.value)
 
-    if(this.registerForm.valid){
-      console.log('posteando form')
-      
-    }else{
-      console.log('formulario incorrecto')
+    if(this.registerForm.invalid){
+      return
       
     }
+
+    // posteo
+
+    this.userService.createUser( this.registerForm.value )
+        .subscribe( res => {
+          console.log('usuario creado');
+          console.log( res );
+          
+          
+        }, (err) => console.warn(err.error.msg));
     
   };
 
@@ -61,6 +70,24 @@ export class RegisterComponent {
     }else{
       return false
     }
+
+  }
+
+
+  emptyPasswords(){
+
+    const pass1 = this.registerForm.get('password').value;
+    const pass2 = this.registerForm.get('repeatPassword').value;
+    
+    
+
+    if ((!pass1 || !pass2) && this.formSubmitted) {
+      return true
+    }else{
+      return false
+    }
+
+
 
   }
   acceptTerms(){
