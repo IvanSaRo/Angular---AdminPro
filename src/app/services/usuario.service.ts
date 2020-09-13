@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RegisterForm } from '../interfaces/register-form.interface';
+import { tap } from 'rxjs/operators';
+
 import { environment } from 'src/environments/environment';
+
+import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
 
 @Injectable({
@@ -16,13 +19,24 @@ export class UsuarioService {
 
   createUser(formData: RegisterForm){
     
-    return this.http.post(`${ this.base_url}/users`, formData );
+    return this.http.post(`${ this.base_url}/users`, formData )
+               .pipe(
+                 tap( (res: any) => {
+                   localStorage.setItem('token', res.token);
+                   
+                 })
+               )
   }
 
   login( formData: LoginForm){
    
-    return this.http.post(`${ this.base_url}/login`, formData );
-    
+    return this.http.post(`${ this.base_url}/login`, formData ) 
+               .pipe(
+                 tap( (res: any) => {
+                   localStorage.setItem('token', res.token);
+                   
+                 })
+               )
   }
 
 
