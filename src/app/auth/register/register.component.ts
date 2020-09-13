@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -43,7 +45,9 @@ export class RegisterComponent {
           console.log( res );
           
           
-        }, (err) => console.warn(err.error.msg));
+        }, (err) => {
+          Swal.fire('Error', err.error.msg, 'error');
+        });
     
   };
 

@@ -15,7 +15,9 @@ export class UsuarioService {
 
   createUser(formData: RegisterForm){
     
-    return this.http.post(`${ this.base_url}/users`, formData )
+    return this.http.post(`${ this.base_url}/users`, formData );
+
+    
     
   }
 
