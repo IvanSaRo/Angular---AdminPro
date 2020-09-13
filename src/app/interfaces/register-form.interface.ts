@@ -1,4 +1,4 @@
-// las interfaces son como clases que sirven para poner ciertas restricciones y forzar que un objeto tenga cierta forma
+// las interfaces son como clases capadas que sirven para poner ciertas restricciones y forzar que un objeto tenga cierta forma
 
 export interface RegisterForm {
 
