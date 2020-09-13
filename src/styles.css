@@ -8,3 +8,8 @@
 .selector{
     cursor: pointer;
 }
+
+#google-btn{
+    justify-content: center;
+    display: flex;
+}
