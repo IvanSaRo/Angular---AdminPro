@@ -5,11 +5,15 @@
     animation-fill-mode: both;
 }
 
-.selector{
+.selector, #themecolors, .cursor{
     cursor: pointer;
 }
 
 #google-btn{
     justify-content: center;
     display: flex;
+}
+
+.cursor{
+    cursor: pointer;
 }

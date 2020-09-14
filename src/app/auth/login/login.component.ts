@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
@@ -30,8 +30,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    private ngZone: NgZone
+  ) {
+    
+  }
 
   ngOnInit() {
     this.renderButton();
@@ -51,8 +54,8 @@ export class LoginComponent implements OnInit {
           localStorage.removeItem('remember');
         }
 
-         // navegar al dashboard
-         this.router.navigateByUrl('/');
+        // navegar al dashboard
+        this.router.navigateByUrl('/');
       },
       (err) => {
         Swal.fire('Error', err.error.msg, 'error');
@@ -73,35 +76,33 @@ export class LoginComponent implements OnInit {
   }
 
   startApp() {
-    gapi.load('auth2',  () => {
-      // Retrieve the singleton for the GoogleAuth library and set up the client.
+    gapi.load('auth2', () => {
       this.auth2 = gapi.auth2.init({
         client_id:
           '1079830924924-jpp1eou8vupsvfb5ttcl3e159u8f10mr.apps.googleusercontent.com',
         cookiepolicy: 'single_host_origin',
-        // Request scopes in addition to 'profile' and 'email'
-        //scope: 'additional_scope'
       });
       this.attachSignin(document.getElementById('my-signin2'));
-    }); 
+    });
   }
 
   attachSignin(element) {
-    
     this.auth2.attachClickHandler(
       element,
       {},
       (googleUser) => {
         const id_token = googleUser.getAuthResponse().id_token;
         // console.log(id_token);
-        this.userService.loginGoogle( id_token )
-                        .subscribe( res =>  {
-                          // navegar al dashboard
-                          this.router.navigateByUrl('/')
-                        });
+        this.userService.loginGoogle(id_token).subscribe((res) => {
+          // navegar al dashboard
+          this.router.navigateByUrl('/');
+        });
 
         // navegar al dashboard
-        this.router.navigateByUrl('/');
+        this.ngZone.run( () => {
+
+          this.router.navigateByUrl('/');
+        })
       },
       (error) => {
         alert(JSON.stringify(error, undefined, 2));
