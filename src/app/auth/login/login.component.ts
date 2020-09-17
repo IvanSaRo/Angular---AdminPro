@@ -32,9 +32,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private ngZone: NgZone
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit() {
     this.renderButton();
@@ -61,7 +59,6 @@ export class LoginComponent implements OnInit {
         Swal.fire('Error', err.error.msg, 'error');
       }
     );
-    // this.router.navigateByUrl('/');
   }
 
   renderButton() {
@@ -75,15 +72,11 @@ export class LoginComponent implements OnInit {
     this.startApp();
   }
 
-  startApp() {
-    gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id:
-          '1079830924924-jpp1eou8vupsvfb5ttcl3e159u8f10mr.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-      });
-      this.attachSignin(document.getElementById('my-signin2'));
-    });
+  async startApp() {
+    await this.userService.googleInit();
+    this.auth2 = this.userService.auth2;
+
+    this.attachSignin(document.getElementById('my-signin2'));
   }
 
   attachSignin(element) {
@@ -95,14 +88,10 @@ export class LoginComponent implements OnInit {
         // console.log(id_token);
         this.userService.loginGoogle(id_token).subscribe((res) => {
           // navegar al dashboard
-          this.router.navigateByUrl('/');
+          this.ngZone.run(() => {
+            this.router.navigateByUrl('/');
+          });
         });
-
-        // navegar al dashboard
-        this.ngZone.run( () => {
-
-          this.router.navigateByUrl('/');
-        })
       },
       (error) => {
         alert(JSON.stringify(error, undefined, 2));
