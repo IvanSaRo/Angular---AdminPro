@@ -8,6 +8,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { RegisterForm } from '../interfaces/register-form.interface';
+import { User } from '../models/user.model';
 
 declare const gapi: any;
 
@@ -18,6 +19,8 @@ export class UserService {
   base_url = environment.base_url;
 
   public auth2: any;
+
+  public user: User;
   constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
     this.googleInit();
   }
@@ -68,7 +71,13 @@ export class UserService {
       })
       .pipe(
         tap((res: any) => {
+          const { email, ​google, img,  name, uid, role} = res.user;
+
+          this.user = new User(name, email, '', img, role, google, uid);
+          
+          
           localStorage.setItem('token', res.token);
+          
         }),
         map((res) => true),
         catchError((err) => of(false)) //este of retorna un nuevo observable con el false para que no se rompa el ciclo
