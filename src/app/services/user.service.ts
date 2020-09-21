@@ -23,6 +23,8 @@ export class UserService {
   public user: User;
   constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
     this.googleInit();
+    
+    
   }
 
   googleInit() {
@@ -71,9 +73,11 @@ export class UserService {
       })
       .pipe(
         tap((res: any) => {
-          const { email, ​google, img,  name, uid, role} = res.user;
+          const { email, ​google, img, name, uid, role} = res.user;
 
-          this.user = new User(name, email, '', img, role, google, uid);
+          this.user = new User(name, email, img, '', role, google, uid);
+          
+          console.log(this.user);
           
           
           localStorage.setItem('token', res.token);

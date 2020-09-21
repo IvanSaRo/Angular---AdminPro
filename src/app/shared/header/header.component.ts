@@ -9,7 +9,17 @@ import { UserService } from '../../services/user.service';
 })
 export class HeaderComponent {
 
+  public imgUrl = '';
+
+  public name= '';
+
+
   constructor(private userService: UserService) { 
+    this.imgUrl = userService.user.imgUrl;
+
+    this.name = this.userService.user.name;
+
+    
     
   }
 
