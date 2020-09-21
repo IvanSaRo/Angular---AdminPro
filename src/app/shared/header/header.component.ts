@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -9,15 +10,13 @@ import { UserService } from '../../services/user.service';
 })
 export class HeaderComponent {
 
-  public imgUrl = '';
-
-  public name= '';
+  public user: User;
+  
 
 
   constructor(private userService: UserService) { 
-    this.imgUrl = userService.user.imgUrl;
-
-    this.name = this.userService.user.name;
+    this.user = this.userService.user;
+    
 
     
     
