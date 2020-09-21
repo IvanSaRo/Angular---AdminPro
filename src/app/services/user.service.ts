@@ -73,7 +73,7 @@ export class UserService {
       })
       .pipe(
         tap((res: any) => {
-          const { email, ​google, img, name, uid, role} = res.user;
+          const { email, ​google, img = '', name, uid, role} = res.user;
 
           this.user = new User(name, email, img, '', role, google, uid);
           
