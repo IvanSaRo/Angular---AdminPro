@@ -21,17 +21,16 @@ export class UserService {
   public auth2: any;
 
   public user: User;
-  constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private ngZone: NgZone
+  ) {
     this.googleInit();
-    
-    
   }
 
   googleInit() {
-    
-    return new Promise(resolve => {
-
-
+    return new Promise((resolve) => {
       gapi.load('auth2', () => {
         this.auth2 = gapi.auth2.init({
           client_id:
@@ -41,24 +40,19 @@ export class UserService {
 
         resolve();
       });
-
-    })
-    
+    });
   }
 
   logout() {
     localStorage.removeItem('token');
-    
-    this.auth2.signOut().then( () => {
-    // como ls función de arriba es llama a una librería externa a Angular provoca problemas de ejecución
-    // el botónG no recarga bien al hacer logout, va a manejar la instancia global de Angular y va a permitirnos
-    // ejecutar procesos en Angular aunque vengan de fuera 
-    this.ngZone.run( () => {
 
-       this.router.navigateByUrl('/login');
-
-     })
-     
+    this.auth2.signOut().then(() => {
+      // como ls función de arriba es llama a una librería externa a Angular provoca problemas de ejecución
+      // el botónG no recarga bien al hacer logout, va a manejar la instancia global de Angular y va a permitirnos
+      // ejecutar procesos en Angular aunque vengan de fuera
+      this.ngZone.run(() => {
+        this.router.navigateByUrl('/login');
+      });
     });
   }
 
@@ -73,14 +67,13 @@ export class UserService {
       })
       .pipe(
         map((res: any) => {
-          const { email, ​google, img = '', name, uid, role} = res.user;
+          const { email, google, img = '', name, uid, role } = res.user;
 
           this.user = new User(name, email, img, '', role, google, uid);
-          
+
           localStorage.setItem('token', res.token);
 
           return true;
-          
         }),
         catchError((err) => of(false)) //este of retorna un nuevo observable con el false para que no se rompa el ciclo
       );
