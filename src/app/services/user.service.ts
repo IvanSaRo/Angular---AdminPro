@@ -72,18 +72,16 @@ export class UserService {
         },
       })
       .pipe(
-        tap((res: any) => {
+        map((res: any) => {
           const { email, ​google, img = '', name, uid, role} = res.user;
 
           this.user = new User(name, email, img, '', role, google, uid);
           
-          console.log(this.user);
-          
-          
           localStorage.setItem('token', res.token);
+
+          return true;
           
         }),
-        map((res) => true),
         catchError((err) => of(false)) //este of retorna un nuevo observable con el false para que no se rompa el ciclo
       );
   }
