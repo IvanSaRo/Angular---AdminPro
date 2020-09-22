@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -28,7 +28,7 @@ import { ProfileComponent } from './profile/profile.component';
     AccountSettingsComponent,
     PromesasComponent,
     RxjsComponent,
-    ProfileComponent
+    ProfileComponent, 
   ],
   imports: [
     CommonModule,
@@ -36,6 +36,7 @@ import { ProfileComponent } from './profile/profile.component';
     RouterModule, /* esta importación es para que funcione routeroutlet, por es no hace falta que sea AppRoutingModule */
     FormsModule, /* importado para que el ngmodel del progress funcione */
     ComponentsModule,
+    ReactiveFormsModule
     
   ],
   exports: [

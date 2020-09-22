@@ -5,7 +5,11 @@
         <h4 class="card-title">Mi perfil de usuario</h4>
         <h6 class="card-subtitle">Ajustes</h6>
 
-        <form class="form p-t-20">
+        <form
+          class="form p-t-20"
+          [formGroup]="profileForm"
+          (submit)="updateProfile()"
+        >
           <div class="form-group">
             <label for="exampleInputuname">User Name</label>
             <div class="input-group">
@@ -15,6 +19,7 @@
                 class="form-control"
                 id="exampleInputuname"
                 placeholder="Nombre del usuario"
+                formControlName="name"
               />
             </div>
           </div>
@@ -27,6 +32,7 @@
                 class="form-control"
                 id="exampleInputEmail1"
                 placeholder="Email"
+                formControlName="email"
               />
             </div>
           </div>
@@ -34,6 +40,7 @@
           <button
             type="submit"
             class="btn btn-success btn-block waves-effect waves-light m-r-10"
+            [disabled]="profileForm.invalid"
           >
             <i class="fa fa-save"></i>
             Guardar cambios
@@ -54,7 +61,7 @@
           <img class="img-avatar" />
         </div>
 
-        <input type="file">
+        <input type="file" />
 
         <br />
         <br />
