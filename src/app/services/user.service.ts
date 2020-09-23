@@ -27,15 +27,13 @@ export class UserService {
     private ngZone: NgZone
   ) {
     this.googleInit();
-    
-    
   }
 
-  get token(): string{
+  get token(): string {
     return localStorage.getItem('token') || '';
   }
 
-  get uid(): string{
+  get uid(): string {
     return this.user.uid || '';
   }
 
@@ -67,7 +65,6 @@ export class UserService {
   }
 
   validateToken(): Observable<boolean> {
-
     return this.http
       .get(`${this.base_url}/login/renew`, {
         headers: {
@@ -81,12 +78,6 @@ export class UserService {
           this.user = new User(name, email, img, '', role, google, uid);
 
           localStorage.setItem('token', res.token);
-
-          console.log(this.user)
-
-          console.log(this.token)
-          
-          
 
           return true;
         }),
@@ -102,18 +93,17 @@ export class UserService {
     );
   }
 
-  updateProfile(data:{ name: string, email: string, role: string}){
-
+  updateProfile(data: { name: string; email: string; role: string }) {
     data = {
       ...data,
-      role: this.user.role
-    }
-    console.log(this.token)
-    
-    return this.http.put(`${this.base_url}/users/${ this.uid }`, data, {
+      role: this.user.role,
+    };
+    console.log(this.token);
+
+    return this.http.put(`${this.base_url}/users/${this.uid}`, data, {
       headers: {
-        'x-token': this.token
-      }
+        'x-token': this.token,
+      },
     });
   }
 
