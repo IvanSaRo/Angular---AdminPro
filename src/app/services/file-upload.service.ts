@@ -4,47 +4,45 @@ import { environment } from '../../environments/environment';
 const base_url = environment.base_url;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FileUploadService {
+  constructor() {}
 
-  constructor() { }
+  async updatePhoto(
+    archive: File,
+    type: 'users' | 'doctors' | 'hospitals',
+    id: string
+  ) {
+    try {
+      const url = `${base_url}/upload/${type}/${id}`;
+      const formData = new FormData();
 
+      formData.append('img', archive);
 
- async  updatePhoto(
-   archive: File,
-   type: 'users' | 'doctors' | 'hospitals',
-   id: string
- ){
+      const resp = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'x-token': localStorage.getItem('token') || '',
+        },
+        body: formData,
+      });
 
-  try {
+      const data = await resp.json();
 
-    const url = `${ base_url }/upload/${ type }/${ id }`;
+      if (data.ok) {
+        return data.archiveName;
+      } else {
+        console.log(data.msg);
 
-    const formData = new FormData();
+        return false;
+      }
 
-    formData.append('img', archive);
+      return 'nombre img';
+    } catch (error) {
+      console.log(error);
 
-    const resp = await fetch( url, {
-      method: 'PUT',
-      headers: {
-        'x-token': localStorage.getItem('token') || ''
-      },
-      body: formData
-    });
-
-    const data = await resp.json();
-
-    console.log(data);
-    
-
-    return 'nombre img';
-
-    
-  } catch (error) {
-    console.log(error)
-    
-    return false;
+      return false;
+    }
   }
- }
 }

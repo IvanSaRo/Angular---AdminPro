@@ -36,7 +36,11 @@
               />
             </div>
           </div>
-
+          <div class="text-danger">
+            <p *ngIf=error>
+              * El mail está siendo utilizado por otro usuario
+            </p>
+          </div>
           <button
             type="submit"
             class="btn btn-success btn-block waves-effect waves-light m-r-10"

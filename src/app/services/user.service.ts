@@ -104,7 +104,7 @@ export class UserService {
       headers: {
         'x-token': this.token,
       },
-    });
+    })
   }
 
   login(formData: LoginForm) {
