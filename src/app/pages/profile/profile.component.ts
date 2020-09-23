@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { UserService } from '../../services/user.service';
+import { FileUploadService } from '../../services/file-upload.service';
+
 import { User } from '../../models/user.model';
 
 @Component({
@@ -13,7 +16,12 @@ export class ProfileComponent implements OnInit {
 
   public user: User;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  public imgUp: File;
+
+  constructor(private fb: FormBuilder, 
+              private userService: UserService,
+              private fileUploadService: FileUploadService
+              ) {
     this.user = this.userService.user;
   }
 
@@ -42,7 +50,19 @@ export class ProfileComponent implements OnInit {
       
         // ésto funciona debido a que en todos los lugares donde toque el user manejan la misma
         // instancia del usuario que está en el servicio, modificar en un punto modifica el objeto
-        // a nivel global e instantáneo
+        // a nivel global e instantáneo           
     });
+  }
+
+  changeImg(file: File){
+    this.imgUp = file;
+    
+  }
+
+  uploadImg(){
+
+    this.fileUploadService
+        .updatePhoto( this.imgUp, 'users', this.user.uid)
+        .then( img => console.log(img))
   }
 }

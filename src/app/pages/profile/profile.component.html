@@ -61,7 +61,7 @@
           <img class="img-avatar" />
         </div>
 
-        <input type="file" />
+        <input type="file" (change)="changeImg($event.target.files[0])" />
 
         <br />
         <br />
@@ -69,6 +69,8 @@
         <button
           type="button"
           class="btn btn-success btn-block waves-effect waves-light m-r-10"
+          [disabled]= "!imgUp"
+          (click)="uploadImg()"
         >
           <i class="fa fa-save"></i>
           Cambiar imagen
