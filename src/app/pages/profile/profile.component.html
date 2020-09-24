@@ -66,12 +66,20 @@
        
 
         <div class="text-center">
+<<<<<<< HEAD
           <img [src]="user.imgUrl" alt="Imagen del usuario" class="img-avatar" *ngIf="!imgTemp" referrerpolicy="no-referrer">
+=======
+          <img [src]="user.imgUrl" alt="Imagen del usuario" class="img-avatar" *ngIf="!imgTemp">
+>>>>>>> 46defabccf2ca3a2421d92b183ed18b1ecd724a6
           <img [src]="imgTemp" alt="Imagen del usuario" class="img-avatar" *ngIf="imgTemp">
         </div>
 
         
+<<<<<<< HEAD
         <input type="file" (change)="changeImg($event.target.files[0])"/>
+=======
+        <input type="file" (change)="changeImg($event.target.files[0])" />
+>>>>>>> 46defabccf2ca3a2421d92b183ed18b1ecd724a6
 
         <br />
         <br />
