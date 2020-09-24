@@ -1,0 +1,11 @@
+diff a/src/app/auth/register/register.component.ts b/src/app/auth/register/register.component.ts	(rejected hunks)
+@@ -16,8 +16,8 @@
+   
+   
+   public registerForm = this.fb.group({
+
++    name: ['', [ Validators.required, Validators.minLength(3)]],
++    email: ['', [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),Validators.required]],
+     password: ['', Validators.required],
+     repeatPassword: ['', Validators.required],
+     terms: [true, Validators.required]
