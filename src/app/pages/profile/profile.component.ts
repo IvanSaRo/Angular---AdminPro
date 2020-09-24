@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { FileUploadService } from '../../services/file-upload.service';
 
 import { User } from '../../models/user.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +20,8 @@ export class ProfileComponent implements OnInit {
   public imgUp: File;
 
   public error: boolean = false;
+
+  public imgTemp: any = null;
 
   constructor(private fb: FormBuilder, 
               private userService: UserService,
@@ -41,7 +44,7 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    console.log(this.profileForm.value);
+  
 
     this.userService.updateProfile(this.profileForm.value)
         .subscribe((res) => {
@@ -50,18 +53,31 @@ export class ProfileComponent implements OnInit {
           this.user.name  = name;
           this.user.email = email;
 
-          this.error = false;
+          Swal.fire('Guardado', 'Los cambios fueron guardados', 'success');
       
         // ésto funciona debido a que en todos los lugares donde toque el user manejan la misma
         // instancia del usuario que está en el servicio, modificar en un punto modifica el objeto
         // a nivel global e instantáneo           
-    }, error => this.error = true
+        }, error => {
+          Swal.fire('Error', error.error.msg, 'error');
+
+         }
     
     );
   }
 
   changeImg(file: File){
     this.imgUp = file;
+
+
+    if (!file) { return this.imgTemp = null }
+
+
+
+    const reader = new FileReader();
+    reader.readAsDataURL( file );
+
+    reader.onloadend = () => { this.imgTemp = reader.result }
     
   }
 

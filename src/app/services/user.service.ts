@@ -98,7 +98,7 @@ export class UserService {
       ...data,
       role: this.user.role,
     };
-    console.log(this.token);
+    
 
     return this.http.put(`${this.base_url}/users/${this.uid}`, data, {
       headers: {
