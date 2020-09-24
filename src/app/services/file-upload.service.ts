@@ -38,7 +38,7 @@ export class FileUploadService {
         return false;
       }
 
-      return 'nombre img';
+      
     } catch (error) {
       console.log(error);
 

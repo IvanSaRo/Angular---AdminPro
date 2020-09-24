@@ -20,6 +20,8 @@
                 id="exampleInputuname"
                 placeholder="Nombre del usuario"
                 formControlName="name"
+                [readOnly]="user.google"
+
               />
             </div>
           </div>
@@ -33,6 +35,7 @@
                 id="exampleInputEmail1"
                 placeholder="Email"
                 formControlName="email"
+                [readOnly]="user.google"
               />
             </div>
           </div>
@@ -60,12 +63,15 @@
         <h4 class="card-title">Avatar</h4>
         <h6 class="card-subtitle">Imagen del usuario</h6>
 
+       
+
         <div class="text-center">
-          <img class="img-avatar" />
-          <img class="img-avatar" />
+          <img [src]="user.imgUrl" alt="Imagen del usuario" class="img-avatar" *ngIf="!imgTemp" referrerpolicy="no-referrer">
+          <img [src]="imgTemp" alt="Imagen del usuario" class="img-avatar" *ngIf="imgTemp">
         </div>
 
-        <input type="file" (change)="changeImg($event.target.files[0])" />
+        
+        <input type="file" (change)="changeImg($event.target.files[0])"/>
 
         <br />
         <br />

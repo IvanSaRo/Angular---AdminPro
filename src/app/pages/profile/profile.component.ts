@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { FileUploadService } from '../../services/file-upload.service';
 
 import { User } from '../../models/user.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -20,10 +21,13 @@ export class ProfileComponent implements OnInit {
 
   public error: boolean = false;
 
-  constructor(private fb: FormBuilder, 
-              private userService: UserService,
-              private fileUploadService: FileUploadService
-              ) {
+  public imgTemp: any = null;
+
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private fileUploadService: FileUploadService
+  ) {
     this.user = this.userService.user;
   }
 
@@ -41,34 +45,49 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    console.log(this.profileForm.value);
+    this.userService.updateProfile(this.profileForm.value).subscribe(
+      (res) => {
+        const { name, email } = this.profileForm.value;
 
-    this.userService.updateProfile(this.profileForm.value)
-        .subscribe((res) => {
-          const { name, email } = this.profileForm.value;
+        this.user.name = name;
+        this.user.email = email;
 
-          this.user.name  = name;
-          this.user.email = email;
+        Swal.fire('Guardado', 'Los cambios fueron guardados', 'success');
 
-          this.error = false;
-      
         // ésto funciona debido a que en todos los lugares donde toque el user manejan la misma
         // instancia del usuario que está en el servicio, modificar en un punto modifica el objeto
-        // a nivel global e instantáneo           
-    }, error => this.error = true
-    
+        // a nivel global e instantáneo
+      },
+      (error) => {
+        Swal.fire('Error', error.error.msg, 'error');
+      }
     );
   }
 
-  changeImg(file: File){
+  changeImg(file: File) {
     this.imgUp = file;
-    
+
+    if (!file) {
+      return (this.imgTemp = null);
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      this.imgTemp = reader.result;
+    };
   }
 
-  uploadImg(){
-
+  uploadImg() {
     this.fileUploadService
-        .updatePhoto( this.imgUp, 'users', this.user.uid)
-        .then( img => this.user.img = img );
+      .updatePhoto(this.imgUp, 'users', this.user.uid)
+      .then((img) => {
+        this.user.img = img;
+        Swal.fire('Guardado', 'La nueva imagen fue guardada', 'success');
+      })
+      .catch((err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      });
   }
 }

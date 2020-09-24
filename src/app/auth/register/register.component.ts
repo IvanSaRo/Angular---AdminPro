@@ -16,8 +16,8 @@ export class RegisterComponent {
   
   
   public registerForm = this.fb.group({
-    name: ['iván', [ Validators.required, Validators.minLength(3)]],
-    email: ['ivan@gmail.com', [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),Validators.required]],
+    name: ['', [ Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),Validators.required]],
     password: ['', Validators.required],
     repeatPassword: ['', Validators.required],
     terms: [true, Validators.required]
