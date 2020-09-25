@@ -13,6 +13,9 @@ import { RxjsComponent } from './rxjs/rxjs.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 
+// Mantenimiento
+import { UsersComponent } from './mantenimiento/users/users.component';
+
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -27,7 +30,10 @@ const routes: Routes = [
       { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas'} },
       { path: 'prueba', component: LoginComponent, data: { titulo: 'Rxjs'} },
       { path: 'rxjs', component: RxjsComponent, data: { titulo: 'Rxjs'} },
-      
+
+      // Mantenimiento
+      { path: 'users', component: UsersComponent, data: { titulo: 'Usuarios'} },
+
     ],
   },
 ];
