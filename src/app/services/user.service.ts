@@ -1,14 +1,16 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { LoginForm } from '../interfaces/login-form.interface';
 import { Observable, of } from 'rxjs';
-
 import { tap, map, catchError } from 'rxjs/operators';
+
 import { environment } from 'src/environments/environment';
 
-import { RegisterForm } from '../interfaces/register-form.interface';
 import { User } from '../models/user.model';
+
+import { RegisterForm } from '../interfaces/register-form.interface';
+import { LoginForm } from '../interfaces/login-form.interface';
+import { chargeUser } from '../interfaces/charge-users.interface';
 
 declare const gapi: any;
 
@@ -35,6 +37,14 @@ export class UserService {
 
   get uid(): string {
     return this.user.uid || '';
+  }
+
+  get headers(){
+    return {
+      headers: {
+        'x-token': this.token,
+      }
+    }
   }
 
   googleInit() {
@@ -66,11 +76,7 @@ export class UserService {
 
   validateToken(): Observable<boolean> {
     return this.http
-      .get(`${this.base_url}/login/renew`, {
-        headers: {
-          'x-token': this.token,
-        },
-      })
+      .get(`${this.base_url}/login/renew`, this.headers)
       .pipe(
         map((res: any) => {
           const { email, google, img = '', name, uid, role } = res.user;
@@ -100,11 +106,7 @@ export class UserService {
     };
     
 
-    return this.http.put(`${this.base_url}/users/${this.uid}`, data, {
-      headers: {
-        'x-token': this.token,
-      },
-    })
+    return this.http.put(`${this.base_url}/users/${this.uid}`, data, this.headers)
   }
 
   login(formData: LoginForm) {
@@ -114,11 +116,19 @@ export class UserService {
       })
     );
   }
+  
   loginGoogle(token) {
     return this.http.post(`${this.base_url}/login/google`, { token }).pipe(
       tap((res: any) => {
         localStorage.setItem('token', res.token);
       })
     );
+  }
+
+  getUsers( from: number = 0){
+    
+    const url = `${this.base_url}/users?from=${from}`;
+    
+    return this.http.get<chargeUser>(url, this.headers);
   }
 }

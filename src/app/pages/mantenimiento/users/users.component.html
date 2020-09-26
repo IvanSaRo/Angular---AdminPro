@@ -18,11 +18,13 @@
      </div>
     </div>
 </div>
+
+
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Usuarios</h4>
+                <h4 class="card-title">Usuarios registrados: {{numberUsers}}</h4>
                 <h6 class="card-subtitle">Usuarios registrados en mi app</h6>
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -30,17 +32,23 @@
                             <tr>
                                 <th>Imagen</th>
                                 <th>Correo</th>
+                                <th>Nombre</th>
                                 <th>Role</th>
                                 <th>Auth</th>
                                 <th class="text-nowrap">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
+                        <tbody >
+                            <tr *ngFor="let user of users">
+                                <td>xxxxx</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.role }}</td>
+                                <td>
+                                    <span class=" label label-danger">Google</span>
+                                    <span class=" label label-info">Email</span>
+                                </td>
+
                               
                                
                                 
