@@ -39,12 +39,12 @@ export class UserService {
     return this.user.uid || '';
   }
 
-  get headers(){
+  get headers() {
     return {
       headers: {
         'x-token': this.token,
-      }
-    }
+      },
+    };
   }
 
   googleInit() {
@@ -66,8 +66,8 @@ export class UserService {
 
     this.auth2.signOut().then(() => {
       // como ls función de arriba es llama a una librería externa a Angular provoca problemas de ejecución
-      // el botónG no recarga bien al hacer logout, va a manejar la instancia global de Angular y va a permitirnos
-      // ejecutar procesos en Angular aunque vengan de fuera
+      // el botónG no recarga bien al hacer logout,ngZone va a manejar la instancia global de Angular y va
+      // a permitirnos ejecutar procesos en Angular aunque vengan de fuera
       this.ngZone.run(() => {
         this.router.navigateByUrl('/login');
       });
@@ -75,20 +75,18 @@ export class UserService {
   }
 
   validateToken(): Observable<boolean> {
-    return this.http
-      .get(`${this.base_url}/login/renew`, this.headers)
-      .pipe(
-        map((res: any) => {
-          const { email, google, img = '', name, uid, role } = res.user;
+    return this.http.get(`${this.base_url}/login/renew`, this.headers).pipe(
+      map((res: any) => {
+        const { email, google, img = '', name, uid, role } = res.user;
 
-          this.user = new User(name, email, img, '', role, google, uid);
+        this.user = new User(name, email, img, '', role, google, uid);
 
-          localStorage.setItem('token', res.token);
+        localStorage.setItem('token', res.token);
 
-          return true;
-        }),
-        catchError((err) => of(false)) //este of retorna un nuevo observable con el false para que no se rompa el ciclo
-      );
+        return true;
+      }),
+      catchError((err) => of(false)) //este of retorna un nuevo observable con el false para que no se rompa el ciclo
+    );
   }
 
   createUser(formData: RegisterForm) {
@@ -104,9 +102,11 @@ export class UserService {
       ...data,
       role: this.user.role,
     };
-    
-
-    return this.http.put(`${this.base_url}/users/${this.uid}`, data, this.headers)
+    return this.http.put(
+      `${this.base_url}/users/${this.uid}`,
+      data,
+      this.headers
+    );
   }
 
   login(formData: LoginForm) {
@@ -116,7 +116,7 @@ export class UserService {
       })
     );
   }
-  
+
   loginGoogle(token) {
     return this.http.post(`${this.base_url}/login/google`, { token }).pipe(
       tap((res: any) => {
@@ -125,10 +125,9 @@ export class UserService {
     );
   }
 
-  getUsers( from: number = 0){
-    
+  getUsers(from: number = 0) {
     const url = `${this.base_url}/users?from=${from}`;
-    
+
     return this.http.get<chargeUser>(url, this.headers);
   }
 }

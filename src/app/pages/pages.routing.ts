@@ -22,17 +22,17 @@ const routes: Routes = [
     component: PagesComponent,
     canActivate: [ AuthGuard],
     children: [
-      { path: '', component: DashboardComponent, data: { titulo: 'Dashboard'} },
-      { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes'} },
-      { path: 'grafica1', component: Grafica1Component, data: { titulo: 'Gráfica #1'} },
-      { path: 'profile', component: ProfileComponent, data: { titulo: 'Profile'} },
-      { path: 'progress', component: ProgressComponent, data: { titulo: 'ProgressBar'} },
-      { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas'} },
-      { path: 'prueba', component: LoginComponent, data: { titulo: 'Rxjs'} },
-      { path: 'rxjs', component: RxjsComponent, data: { titulo: 'Rxjs'} },
+      { path: '', component: DashboardComponent, data: { title: 'Dashboard'} },
+      { path: 'account-settings', component: AccountSettingsComponent, data: { title: 'Ajustes'} },
+      { path: 'grafica1', component: Grafica1Component, data: { title: 'Gráfica #1'} },
+      { path: 'profile', component: ProfileComponent, data: { title: 'Profile'} },
+      { path: 'progress', component: ProgressComponent, data: { title: 'ProgressBar'} },
+      { path: 'promesas', component: PromesasComponent, data: { title: 'Promesas'} },
+      { path: 'prueba', component: LoginComponent, data: { title: 'Rxjs'} },
+      { path: 'rxjs', component: RxjsComponent, data: { title: 'Rxjs'} },
 
       // Mantenimiento
-      { path: 'users', component: UsersComponent, data: { titulo: 'Usuarios'} },
+      { path: 'users', component: UsersComponent, data: { title: 'Usuarios'} },
 
     ],
   },

@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
-
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
 
@@ -16,6 +14,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
+
 import { UsersComponent } from './mantenimiento/users/users.component';
 
 
@@ -35,7 +34,7 @@ import { UsersComponent } from './mantenimiento/users/users.component';
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule, /* esta importación es para que funcione routeroutlet, por es no hace falta que sea AppRoutingModule */
+    RouterModule, /* esta importación es para que funcione routeroutlet, por eso no hace falta que sea AppRoutingModule */
     FormsModule, /* importado para que el ngmodel del progress funcione */
     ComponentsModule,
     ReactiveFormsModule
