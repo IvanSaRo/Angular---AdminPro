@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
+
 import { User } from 'src/app/models/user.model';
+
 import { UserService } from '../../../services/user.service';
 import { SearchsService } from '../../../services/searchs.service';
 
@@ -21,7 +24,7 @@ export class UsersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.chargeUsers();
+    this.loadUsers();
   }
 
   changePage(value: number) {
@@ -33,10 +36,10 @@ export class UsersComponent implements OnInit {
       this.from -= value;
     }
 
-    this.chargeUsers();
+    this.loadUsers();
   }
 
-  chargeUsers() {
+  loadUsers() {
     this.loading = true;
     this.userService.getUsers(this.from).subscribe(({ total, users }) => {
       this.numberUsers = total;
@@ -47,12 +50,42 @@ export class UsersComponent implements OnInit {
   }
 
   search(term: string) {
-    if(term.length === 0){ return this.users = this.usersTemp;}
-    
+    if (term.length === 0) {
+      return (this.users = this.usersTemp);
+    }
+
     this.searchService.search('users', term).subscribe((res) => {
       console.log(res);
 
       this.users = res;
+    });
+  }
+
+  deleteUser(user: User) {
+    Swal.fire({
+      title: '¿Borrar usuario?',
+      text: `Estás a punto de borrar a ${user.name}`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, bórralo',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.userService
+          .deleteUser(user)
+          .subscribe((res) => 
+           { Swal.fire(
+              'Usuario borrado',
+              'El usuario ha sido borrado',
+              'success'
+            ), (err) => console.log
+          
+            this.loadUsers();
+          }
+            
+          );
+      }
     });
   }
 }
