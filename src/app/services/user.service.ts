@@ -99,6 +99,11 @@ export class UserService {
 
   updateProfile(data: { name: string; email: string; role: string }) {
    
+    data = { 
+      ...data,
+      role: this.user.role
+    }
+
     return this.http.put(
       `${this.base_url}/users/${this.uid}`,
       data,
