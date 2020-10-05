@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent, data: { title: 'Profile'} },
       { path: 'progress', component: ProgressComponent, data: { title: 'ProgressBar'} },
       { path: 'promesas', component: PromesasComponent, data: { title: 'Promesas'} },
-      { path: 'prueba', component: LoginComponent, data: { title: 'Rxjs'} },
+      { path: 'prueba', component: LoginComponent, data: { title: 'Prueba'} },
       { path: 'rxjs', component: RxjsComponent, data: { title: 'Rxjs'} },
 
       // Mantenimiento

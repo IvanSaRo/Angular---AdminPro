@@ -98,10 +98,7 @@ export class UserService {
   }
 
   updateProfile(data: { name: string; email: string; role: string }) {
-    data = {
-      ...data,
-      role: this.user.role,
-    };
+   
     return this.http.put(
       `${this.base_url}/users/${this.uid}`,
       data,
@@ -155,5 +152,14 @@ export class UserService {
 
     return this.http.delete(url, this.headers);
     
+  }
+
+  updateRole(user: User) {
+   
+    return this.http.put(
+      `${this.base_url}/users/${user.uid}`,
+      user,
+      this.headers
+    );
   }
 }
