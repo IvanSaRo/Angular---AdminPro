@@ -7,7 +7,8 @@
 
 .selector,
 #themecolors,
-.cursor {
+.cursor,
+.avatar {
   cursor: pointer;
 }
 
@@ -33,6 +34,7 @@
   width: 30px;
   border-radius: 100%;
   height: 30px;
+  
 }
 
 .fondo-modal-img{

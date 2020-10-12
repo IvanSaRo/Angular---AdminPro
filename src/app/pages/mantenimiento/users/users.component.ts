@@ -3,8 +3,9 @@ import Swal from 'sweetalert2';
 
 import { User } from 'src/app/models/user.model';
 
-import { UserService } from '../../../services/user.service';
+import { ModalImgService } from '../../../services/modal-img.service';
 import { SearchsService } from '../../../services/searchs.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-users',
@@ -20,7 +21,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private searchService: SearchsService
+    private searchService: SearchsService,
+    private modalImgService: ModalImgService
   ) {}
 
   ngOnInit(): void {
@@ -62,12 +64,10 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    
     if (user.uid === this.userService.user.uid) {
       return Swal.fire('Error', 'No puede borrarse a si mismo', 'error');
     }
-    
-    
+
     Swal.fire({
       title: '¿Borrar usuario?',
       text: `Estás a punto de borrar a ${user.name}`,
@@ -78,33 +78,30 @@ export class UsersComponent implements OnInit {
       confirmButtonText: 'Si, bórralo',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.userService
-          .deleteUser(user)
-          .subscribe((res) => 
-           { Swal.fire(
-              'Usuario borrado',
-              'El usuario ha sido borrado',
-              'success'
-            ), (err) => console.log
-          
-            this.loadUsers();
-          }
-            
-          );
+        this.userService.deleteUser(user).subscribe((res) => {
+          Swal.fire('Usuario borrado', 'El usuario ha sido borrado', 'success'),
+            (err) => console.log;
+
+          this.loadUsers();
+        });
       }
     });
   }
 
-  changeRole( user: User){
-    this.userService.updateRole( user )
-        .subscribe( res =>  { Swal.fire(
-          'Rol cambiado',
-          'El rol del usuario ha sido cambiado',
-          'success'
-        ), (err) => console.log
-      
-        
-      }
-        )
+  changeRole(user: User) {
+    this.userService.updateRole(user).subscribe((res) => {
+      Swal.fire(
+        'Rol cambiado',
+        'El rol del usuario ha sido cambiado',
+        'success'
+      ),
+        (err) => console.log;
+    });
+  }
+
+  openModal( user: User){
+    console.log(user);
+    this.modalImgService.openModal();
+    
   }
 }
