@@ -97,7 +97,14 @@ export class UsersComponent implements OnInit {
 
   changeRole( user: User){
     this.userService.updateRole( user )
-        .subscribe( res => console.log(res)
+        .subscribe( res =>  { Swal.fire(
+          'Rol cambiado',
+          'El rol del usuario ha sido cambiado',
+          'success'
+        ), (err) => console.log
+      
+        
+      }
         )
   }
 }
