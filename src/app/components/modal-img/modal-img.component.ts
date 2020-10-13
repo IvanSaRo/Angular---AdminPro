@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalImgService } from '../../services/modal-img.service';
+import { FileUploadService } from '../../services/file-upload.service';
+
 import { User } from 'src/app/models/user.model';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-img',
@@ -12,14 +16,14 @@ export class ModalImgComponent implements OnInit {
 
   public imgTemp: any = null;
 
-  public user: User;
-
-  
-  constructor(public modalImgService: ModalImgService) {}
+  constructor(
+    public modalImgService: ModalImgService,
+    private fileUploadService: FileUploadService
+  ) {}
 
   ngOnInit(): void {}
 
-  closeModal(){
+  closeModal() {
     this.imgTemp = null;
     this.modalImgService.closeModal();
   }
@@ -37,5 +41,21 @@ export class ModalImgComponent implements OnInit {
     reader.onloadend = () => {
       this.imgTemp = reader.result;
     };
+  }
+
+  uploadImg() {
+    const id = this.modalImgService.id;
+    const type = this.modalImgService.type;
+
+    this.fileUploadService
+      .updatePhoto(this.imgUp, type, id)
+      .then((img) => {
+        Swal.fire('Guardado', 'La nueva imagen fue guardada', 'success');
+        this.modalImgService.newImg.emit(img);
+        this.closeModal();
+      })
+      .catch((err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      });
   }
 }

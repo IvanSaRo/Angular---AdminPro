@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import Swal from 'sweetalert2';
+import { delay } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { User } from 'src/app/models/user.model';
 
@@ -12,12 +14,13 @@ import { UserService } from '../../../services/user.service';
   templateUrl: './users.component.html',
   styles: [],
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   public numberUsers: number = 0;
   public users: User[] = [];
   public from: number = 0;
   public loading: boolean = true;
   public usersTemp: User[] = [];
+  public imgSubs: Subscription;
 
   constructor(
     private userService: UserService,
@@ -27,6 +30,13 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
+    this.imgSubs = this.modalImgService.newImg
+      .pipe(delay(100)) //la carga se hace demasiado rápido, antes de tener la nueva imagen, este delay lo arregla
+      .subscribe((img) => this.loadUsers());
+  }
+
+  ngOnDestroy(){
+    this.imgSubs.unsubscribe();
   }
 
   changePage(value: number) {
@@ -57,8 +67,6 @@ export class UsersComponent implements OnInit {
     }
 
     this.searchService.search('users', term).subscribe((res) => {
-      console.log(res);
-
       this.users = res;
     });
   }
@@ -80,7 +88,7 @@ export class UsersComponent implements OnInit {
       if (result.isConfirmed) {
         this.userService.deleteUser(user).subscribe((res) => {
           Swal.fire('Usuario borrado', 'El usuario ha sido borrado', 'success'),
-            (err) => console.log;
+            (err) => console.error(err);
 
           this.loadUsers();
         });
@@ -95,13 +103,11 @@ export class UsersComponent implements OnInit {
         'El rol del usuario ha sido cambiado',
         'success'
       ),
-        (err) => console.log;
+        (err) => console.error(err);
     });
   }
 
-  openModal( user: User){
-    console.log(user);
+  openModal(user: User) {
     this.modalImgService.openModal('users', user.uid, user.img);
-    
   }
 }
