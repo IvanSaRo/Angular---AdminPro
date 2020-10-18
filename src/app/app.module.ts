@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 
 
 import { NopagesfoundComponent } from './nopagesfound/nopagesfound.component';
+import { PipesModule } from './pipes/pipes.module';
 
 
 
@@ -24,7 +25,8 @@ import { NopagesfoundComponent } from './nopagesfound/nopagesfound.component';
     BrowserModule,
     AppRoutingModule,
     PagesModule,
-    AuthModule
+    AuthModule,
+    PipesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

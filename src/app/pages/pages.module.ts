@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
+import { PipesModule } from '../pipes/pipes.module';
 
 import { PagesComponent } from './pages.component';
 import { Grafica1Component } from './grafica1/grafica1.component';
@@ -41,8 +42,8 @@ import { DoctorsComponent } from './mantenimiento/doctors/doctors.component';
     RouterModule, /* esta importación es para que funcione routeroutlet, por eso no hace falta que sea AppRoutingModule */
     FormsModule, /* importado para que el ngmodel del progress funcione */
     ComponentsModule,
-    ReactiveFormsModule
-    
+    ReactiveFormsModule,
+    PipesModule/* para poder usar pipes en las pages */
   ],
   exports: [
     DashboardComponent,
