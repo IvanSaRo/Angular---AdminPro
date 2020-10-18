@@ -29,13 +29,13 @@
           <div class="col-8">
             <h4 class="card-title">Hospitales</h4>
             <h6 class="card-subtitle">
-              Usuarios registrados en mi app: {{ hospitals.length }}
+              Centros registrados en mi app: {{ hospitals.length }}
             </h6>
           </div>
 
           <div class="col">
             <div class="text-right">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" (click)="abrirSwal()">
                 <i class="fa- fa-hospital-o"></i>
                 Crear hospital
               </button>
@@ -49,7 +49,7 @@
                 <th class="text-center w100">Foto</th>
                 <th class="text-center">Nombre</th>
 
-                <th class="text-nowrap text-center">Acciones</th>
+                <th class="text-nowrap text-center w100">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -59,6 +59,10 @@
                     [src]="hospital.img | img: 'hospitals'"
                     [alt]="hospital.name"
                     class="avatar cursor"
+                    data-toggle="tooltip"
+                    data-original-title="Pulsa para cambiar"
+                    (click)="openModal(hospital)"
+
                   />
                 </td>
                 <td>
@@ -72,14 +76,16 @@
 
                 <td class="text-nowrap text-center">
                   <a
-                    href="#"
+                    (click)="guardarCambios(hospital)"
+                    class="cursor"
                     data-toggle="tooltip"
                     data-original-title="Guardar cambios"
                   >
                     <i class="fa fa-pencil text-inverse m-r-10"></i>
                   </a>
                   <a
-                    href="#"
+                    (click)="eliminarHospital(hospital)"
+                    class="cursor"
                     data-toggle="tooltip"
                     data-original-title="Borrar"
                   >
