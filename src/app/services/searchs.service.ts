@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment.prod';
 import { map } from 'rxjs/operators';
 
 import { User } from 'src/app/models/user.model';
+import { Hospital } from '../models/hospital.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +41,18 @@ export class SearchsService {
     );
   }
 
+  private transformHospitals(res: any): Hospital[] {
+    return res.map(
+      (hospital) => 
+        new Hospital(
+          hospital.name,
+          hospital._id,
+          hospital.img,
+          hospital.user
+        )/* podría devolver res directamente porque aquí el tipado no es tan importante como con el usuario */
+    );
+  }
+
   search(type: 'users' | 'doctors' | 'hospitals', query: string = '') {
     const url = `${this.base_url}/search/collection/${type}/${query}`;
     return this.http.get(url, this.headers).pipe(
@@ -49,8 +62,8 @@ export class SearchsService {
             return this.transformUsers(res.results);
           case 'doctors':
             return;
-          case 'hospitals':
-            return;
+            case 'hospitals':
+              return this.transformHospitals(res. results);
 
           default:
             return [];

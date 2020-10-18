@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { Hospital } from '../../../models/hospital.model';
 import { HospitalService } from '../../../services/hospital.service';
 import { ModalImgService } from '../../../services/modal-img.service';
+import { SearchsService } from '../../../services/searchs.service';
 
 @Component({
   selector: 'app-hospitals',
@@ -17,9 +18,13 @@ export class HospitalsComponent implements OnInit {
   public loading: boolean = true;
   public imgSubs: Subscription;
 
+  public hospitalsTemp: Hospital[] = []
+
+
   constructor(
     private hospitalService: HospitalService,
-    private modalImgService: ModalImgService
+    private modalImgService: ModalImgService,
+    private searchsService: SearchsService
   ) {}
 
   ngOnInit(): void {
@@ -35,10 +40,11 @@ export class HospitalsComponent implements OnInit {
 
     this.hospitalService.getHospitals().subscribe((hospitals) => {
       this.hospitals = hospitals;
+      this.hospitalsTemp = hospitals;
       this.loading = false;
     });
   }
-  guardarCambios(hospital: Hospital) {
+  saveChanges(hospital: Hospital) {
     const { name, _id } = hospital;
 
     this.hospitalService.updateHospital(_id, name).subscribe((res) => {
@@ -48,7 +54,7 @@ export class HospitalsComponent implements OnInit {
         };
     });
   }
-  eliminarHospital(hospital: Hospital) {
+  deleteHospital(hospital: Hospital) {
     const { name, _id } = hospital;
 
     Swal.fire({
@@ -72,8 +78,8 @@ export class HospitalsComponent implements OnInit {
     });
   }
 
-  async abrirSwal() {
-    const { value } = await Swal.fire<string>({
+  async openSwal() {
+    const { value = "" } = await Swal.fire<string>({
       title: 'Crear hospital',
       text: 'Introduzca el nombre del hospital',
       input: 'text',
@@ -95,5 +101,16 @@ export class HospitalsComponent implements OnInit {
 
   openModal(hospital: Hospital) {
     this.modalImgService.openModal('hospitals', hospital._id, hospital.img);
+  }
+
+  search(term: string) {
+    if (term.length === 0) {
+      return (this.hospitals = this.hospitalsTemp);/* aquí también podría llamar al loadHospitals en vez de hacerlo así con el array temporal
+      como back up tal y como lo hice en user */
+    }
+
+    this.searchsService.search('hospitals', term).subscribe((res) => {
+      this.hospitals = res;
+    });
   }
 }
