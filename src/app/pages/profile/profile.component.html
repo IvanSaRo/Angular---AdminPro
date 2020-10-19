@@ -21,7 +21,6 @@
                 placeholder="Nombre del usuario"
                 formControlName="name"
                 [readOnly]="user.google"
-
               />
             </div>
           </div>
@@ -40,7 +39,7 @@
             </div>
           </div>
           <div class="text-danger">
-            <p *ngIf=error>
+            <p *ngIf="error">
               * El mail está siendo utilizado por otro usuario
             </p>
           </div>
@@ -63,15 +62,23 @@
         <h4 class="card-title">Avatar</h4>
         <h6 class="card-subtitle">Imagen del usuario</h6>
 
-       
-
         <div class="text-center">
-          <img [src]="user.imgUrl" alt="Imagen del usuario" class="img-avatar" *ngIf="!imgTemp" referrerpolicy="no-referrer">
-          <img [src]="imgTemp" alt="Imagen del usuario" class="img-avatar" *ngIf="imgTemp">
+          <img
+            [src]="user.imgUrl"
+            alt="Imagen del usuario"
+            class="img-avatar mb-3"
+            *ngIf="!imgTemp"
+            referrerpolicy="no-referrer"
+          />
+          <img
+            [src]="imgTemp"
+            alt="Imagen del usuario"
+            class="img-avatar mb-3"
+            *ngIf="imgTemp"
+          />
         </div>
 
-        
-        <input type="file" (change)="changeImg($event.target.files[0])"/>
+        <input type="file" (change)="changeImg($event.target.files[0])" />
 
         <br />
         <br />
@@ -79,7 +86,7 @@
         <button
           type="button"
           class="btn btn-success btn-block waves-effect waves-light m-r-10"
-          [disabled]= "!imgUp"
+          [disabled]="!imgUp"
           (click)="uploadImg()"
         >
           <i class="fa fa-save"></i>
