@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { User } from 'src/app/models/user.model';
 import { Hospital } from '../models/hospital.model';
+import { Doctor } from '../models/doctor.model';
 
 @Injectable({
   providedIn: 'root',
@@ -43,13 +44,26 @@ export class SearchsService {
 
   private transformHospitals(res: any): Hospital[] {
     return res.map(
-      (hospital) => 
+      (hospital) =>
         new Hospital(
           hospital.name,
           hospital._id,
           hospital.img,
           hospital.user
-        )/* podría devolver res directamente porque aquí el tipado no es tan importante como con el usuario */
+        ) /* podría devolver res directamente porque aquí el tipado no es tan importante como con el usuario */
+    );
+  }
+
+  private transformDoctors(res: any): Doctor[] {
+    return res.map(
+      (doctor) =>
+        new Doctor(
+          doctor.name,
+          doctor._id,
+          doctor.img,
+          doctor.user,
+          doctor.hospital
+        )
     );
   }
 
@@ -61,9 +75,9 @@ export class SearchsService {
           case 'users':
             return this.transformUsers(res.results);
           case 'doctors':
-            return;
-            case 'hospitals':
-              return this.transformHospitals(res. results);
+            return this.transformDoctors(res.results);
+          case 'hospitals':
+            return this.transformHospitals(res.results);
 
           default:
             return [];

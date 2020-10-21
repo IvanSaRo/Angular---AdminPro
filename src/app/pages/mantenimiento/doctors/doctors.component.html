@@ -6,13 +6,16 @@
           type="text"
           class="form-control"
           placeholder="Buscar doctor..."
+          #txtTermino
+          (keyup)="search(txtTermino.value)"
         />
       </div>
     </div>
   </div>
 </div>
 
-<div class="row animated fadeIn fast">
+<div class="row animated fadeIn fast"
+*ngIf="loading">
   <div class="col-12">
     <div class="alert alert-info text-center">
       <h4 class="alert-heading">Cargando</h4>
@@ -21,25 +24,34 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="!loading">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Doctores</h4>
-        <h6 class="card-subtitle">Doctores registrados en mi app</h6>
+        <h6 class="card-subtitle">Doctores registrados en mi app: {{doctors.length}}</h6>
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
               <tr>
                 <th class="w100">Foto</th>
-                <th>Nombre</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Hospital</th>
                 <th class="text-nowrap w100">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Lunar probe project</td>
-                <td>Lunar probe project</td>
+              <tr *ngFor="let doctor of doctors">
+                <td>
+                  <img 
+                  [src]="doctor.img | img: 'doctors'" [alt]="doctor.name"
+                  class="avatar"
+                  (click)="openModal(doctor)"
+
+                  >
+                </td>
+                <td>{{doctor.name}}</td>
+                <td>{{doctor.hospital.name}}</td>
 
                 <td class="text-nowrap text-center">
                   <a
