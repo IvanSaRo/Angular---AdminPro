@@ -38,7 +38,7 @@ const routes: Routes = [
       { path: 'users', component: UsersComponent, data: { title: 'Mantenimiento de usuarios'} },
       { path: 'hospitals', component: HospitalsComponent, data: { title: 'Mantenimiento de hospitales'} },
       { path: 'doctors', component: DoctorsComponent, data: { title: 'Mantenimiento de doctores'} },
-      { path: 'doctors/:id', component: DoctorComponent, data: { title: 'Mantenimiento de doctores'} },
+      { path: 'doctor/:id', component: DoctorComponent, data: { title: 'Mantenimiento de doctores'} },
 
     ],
   },

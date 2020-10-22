@@ -27,7 +27,7 @@ export class SearchsService {
     };
   }
 
-  private transformUsers(res: any): User[] {
+  private transformUsers(res: any[]): User[] {
     return res.map(
       (user) =>
         new User(
@@ -42,7 +42,7 @@ export class SearchsService {
     );
   }
 
-  private transformHospitals(res: any): Hospital[] {
+  private transformHospitals(res: any[]): Hospital[] {
     return res.map(
       (hospital) =>
         new Hospital(
@@ -54,7 +54,7 @@ export class SearchsService {
     );
   }
 
-  private transformDoctors(res: any): Doctor[] {
+  private transformDoctors(res: any[]): Doctor[] {
     return res.map(
       (doctor) =>
         new Doctor(

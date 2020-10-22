@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { delay } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { ModalImgService } from '../../../services/modal-img.service';
   templateUrl: './doctors.component.html',
   styles: [],
 })
-export class DoctorsComponent implements OnInit {
+export class DoctorsComponent implements OnInit, OnDestroy {
   constructor(
     private doctorService: DoctorService,
     private searchsService: SearchsService,
@@ -32,6 +32,10 @@ export class DoctorsComponent implements OnInit {
     this.imgSubs = this.modalImgService.newImg
     .pipe(delay(100))
     .subscribe((img) => this.loadDoctors());
+  }
+
+  ngOnDestroy(){
+    this.imgSubs.unsubscribe();
   }
 
   loadDoctors() {
