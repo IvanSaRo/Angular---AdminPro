@@ -1,16 +1,35 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { HospitalService } from '../../../services/hospital.service';
+import { Hospital } from '../../../models/hospital.model';
 
 @Component({
   selector: 'app-doctor',
   templateUrl: './doctor.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class DoctorComponent implements OnInit {
+  public doctorForm: FormGroup;
 
-  constructor() { }
+  public hospitals: Hospital[] = [];
+
+  constructor(private fb: FormBuilder, private hospitalService: HospitalService) {}
 
   ngOnInit(): void {
+    this.loadHospitals();
+    this.doctorForm = this.fb.group({
+      name: ['', Validators.required],
+      hospital: [``, Validators.required],
+    });
+  }
+  loadHospitals(){
+    this.hospitalService.getHospitals()
+                        .subscribe( hospitals => this.hospitals = hospitals); 
+  }
+
+  saveDoctor() {
+    console.log(this.doctorForm.value);
   }
 
 }

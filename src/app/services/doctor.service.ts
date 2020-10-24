@@ -8,11 +8,10 @@ import { Doctor } from '../models/doctor.model';
 const base_url = environment.base_url;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DoctorService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   get token(): string {
     return localStorage.getItem('token') || '';
@@ -31,9 +30,7 @@ export class DoctorService {
 
     return this.http
       .get(url, this.headers)
-      .pipe(
-        map((res: { ok: boolean; doctors: Doctor[] }) => res.doctors)
-      );
+      .pipe(map((res: { ok: boolean; doctors: Doctor[] }) => res.doctors));
   }
 
   createDoctor(doctor: Doctor) {

@@ -4,7 +4,11 @@
       <div class="card-body">
         <h4 class="card-title">Nuevo médico</h4>
         <h6 class="card-subtitle">Actualizar info</h6>
-        <form class="form-horizontal p-t-20">
+        <form
+          class="form-horizontal p-t-20"
+          [formGroup]="doctorForm"
+          (submit)="saveDoctor()"
+        >
           <div class="form-group row">
             <label for="exampleInputuname3" class="col-sm-3 control-label"
               >Imagen</label
@@ -26,6 +30,7 @@
               <div class="input-group">
                 <div class="input-group-addon"><i class="ti-user"></i></div>
                 <input
+                  formControlName="name"
                   type="text"
                   class="form-control"
                   placeholder="Nombre del médico"
@@ -39,10 +44,14 @@
             >
             <div class="col-sm-9">
               <div class="input-group">
-                <select class="form-control">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
+                <select class="form-control" formControlName="hospital">
+                  <option value="">Seleccione un hospital</option>
+                  <option
+                    *ngFor="let hospital of hospitals"
+                    [value]="hospital._id"
+                  >
+                    {{ hospital.name }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -53,6 +62,7 @@
               <button
                 type="submit"
                 class="btn btn-success waves-effect waves-light"
+                [disabled]="doctorForm.invalid"
               >
                 <i class="fa fa-save"></i>
                 Guardar
