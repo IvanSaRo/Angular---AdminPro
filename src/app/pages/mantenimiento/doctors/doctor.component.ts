@@ -11,8 +11,8 @@ import { Hospital } from '../../../models/hospital.model';
 })
 export class DoctorComponent implements OnInit {
   public doctorForm: FormGroup;
-
   public hospitals: Hospital[] = [];
+  public selectedHospital: Hospital;
 
   constructor(private fb: FormBuilder, private hospitalService: HospitalService) {}
 
@@ -22,6 +22,13 @@ export class DoctorComponent implements OnInit {
       name: ['', Validators.required],
       hospital: [``, Validators.required],
     });
+
+    this.doctorForm.get('hospital').valueChanges
+                   .subscribe( hospitalId => {
+                     this.selectedHospital = this.hospitals.find( h => h._id === hospitalId)
+                     console.log(this.selectedHospital)
+                     
+                   })
   }
   loadHospitals(){
     this.hospitalService.getHospitals()
