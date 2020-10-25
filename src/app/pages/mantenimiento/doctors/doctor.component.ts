@@ -14,7 +14,10 @@ export class DoctorComponent implements OnInit {
   public hospitals: Hospital[] = [];
   public selectedHospital: Hospital;
 
-  constructor(private fb: FormBuilder, private hospitalService: HospitalService) {}
+  constructor(
+    private fb: FormBuilder,
+    private hospitalService: HospitalService
+  ) {}
 
   ngOnInit(): void {
     this.loadHospitals();
@@ -23,20 +26,17 @@ export class DoctorComponent implements OnInit {
       hospital: [``, Validators.required],
     });
 
-    this.doctorForm.get('hospital').valueChanges
-                   .subscribe( hospitalId => {
-                     this.selectedHospital = this.hospitals.find( h => h._id === hospitalId)
-                     console.log(this.selectedHospital)
-                     
-                   })
+    this.doctorForm.get('hospital').valueChanges.subscribe((hospitalId) => {
+      this.selectedHospital = this.hospitals.find((h) => h._id === hospitalId);
+    });
   }
-  loadHospitals(){
-    this.hospitalService.getHospitals()
-                        .subscribe( hospitals => this.hospitals = hospitals); 
+  loadHospitals() {
+    this.hospitalService
+      .getHospitals()
+      .subscribe((hospitals) => (this.hospitals = hospitals));
   }
 
   saveDoctor() {
     console.log(this.doctorForm.value);
   }
-
 }

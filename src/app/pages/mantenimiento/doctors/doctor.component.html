@@ -73,19 +73,18 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <div class="car">
-        <div class="card-body">
-          <h4 class="card-title">Médico</h4>
-          <h6 class="card-subtitle">Hospital asignado</h6>
-          <img
-            src="http://localhost:3000/api/upload/users/e9e2daa1-43b6-4aec-aa69-5b648e335c.jpg"
-            class="w200"
-          />
-        </div>
+
+  <div class="col animated fadeIn fast" *ngIf="selectedHospital">
+    <div class="car">
+      <div class="card-body">
+        <h4 class="card-title">Hospital:</h4>
+        <h6 class="card-subtitle mb-3">{{selectedHospital.name}}</h6>
+        <img
+          [src]="selectedHospital.img | img:'hospitals'"
+          class="hPhoto"
+        />
       </div>
     </div>
-    <div class="col"></div>
   </div>
+  <div class="col"></div>
 </div>
