@@ -29,26 +29,37 @@ export class DoctorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(({ id }) => {
-      this.loadDoctor(id);
-    });
-
-    //  this.doctorService.getDoctorById()
-
-    this.loadHospitals();
     this.doctorForm = this.fb.group({
       name: ['', Validators.required],
       hospital: [``, Validators.required],
     });
-
+    
     this.doctorForm.get('hospital').valueChanges.subscribe((hospitalId) => {
       this.selectedHospital = this.hospitals.find((h) => h._id === hospitalId);
+    });
+    this.loadHospitals();
+    
+    this.activatedRoute.params.subscribe(({ id }) => {
+      this.loadDoctor(id);
     });
   }
 
   loadDoctor(id: string) {
+    if (id === 'new') {
+      return;
+    }
+
     this.doctorService.getDoctorById(id).subscribe((doctor) => {
+      if (!doctor) {
+        return this.router.navigate(['dashboard', 'doctors']);
+      }
+
+      const {
+        name,
+        hospital: { _id },
+      } = doctor;
       this.selectedDoctor = doctor;
+      this.doctorForm.setValue({ name, hospital: _id });
     });
   }
 
@@ -60,12 +71,29 @@ export class DoctorComponent implements OnInit {
 
   saveDoctor() {
     const { name } = this.doctorForm.value;
-    this.doctorService
-      .createDoctor(this.doctorForm.value)
-      .subscribe((res: any) => {
-        Swal.fire('Doctor creado', name, 'success');
-        this.router.navigate(['dashboard', 'doctor', res.doctor._id]),
-          (err) => Swal.fire('Error', 'No se pudo crear doctor', 'error');
+
+    if (this.selectedDoctor) {
+      // Actualizar
+      const doctorData = {
+        ...this.doctorForm.value,
+        _id: this.selectedDoctor._id,
+      };
+      this.doctorService.updateDoctor(doctorData).subscribe((res) => {
+        Swal.fire(
+          'Doctor actualizado',
+          `${name} fue actualizado/a correctamente`,
+          'success'
+        );
       });
+    } else {
+      // Crear
+      this.doctorService
+        .createDoctor(this.doctorForm.value)
+        .subscribe((res: any) => {
+          Swal.fire('Doctor creado', name, 'success');
+          this.router.navigate(['dashboard', 'doctor', res.doctor._id]),
+            (err) => Swal.fire('Error', 'No se pudo crear doctor', 'error');
+        });
+    }
   }
 }
