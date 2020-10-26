@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
-import { HospitalService } from '../../../services/hospital.service';
+import { Doctor } from 'src/app/models/doctor.model';
 import { Hospital } from '../../../models/hospital.model';
+
+import { DoctorService } from '../../../services/doctor.service';
+import { HospitalService } from '../../../services/hospital.service';
 
 @Component({
   selector: 'app-doctor',
@@ -13,10 +18,13 @@ export class DoctorComponent implements OnInit {
   public doctorForm: FormGroup;
   public hospitals: Hospital[] = [];
   public selectedHospital: Hospital;
+  public selectedDoctor: Doctor;
 
   constructor(
     private fb: FormBuilder,
-    private hospitalService: HospitalService
+    private hospitalService: HospitalService,
+    private doctorService: DoctorService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +45,11 @@ export class DoctorComponent implements OnInit {
   }
 
   saveDoctor() {
-    console.log(this.doctorForm.value);
+    const { name } = this.doctorForm.value;
+    this.doctorService.createDoctor(this.doctorForm.value).subscribe((res:any) => {
+      Swal.fire('Doctor creado', name, 'success');
+      this.router.navigate(['dashboard', 'doctor', res.doctor._id ]),
+        (err) => Swal.fire('Error', 'No se pudo crear doctor', 'error');
+    });
   }
 }
