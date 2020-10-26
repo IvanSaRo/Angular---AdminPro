@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Doctor } from 'src/app/models/doctor.model';
 import { Hospital } from '../../../models/hospital.model';
@@ -24,10 +24,17 @@ export class DoctorComponent implements OnInit {
     private fb: FormBuilder,
     private hospitalService: HospitalService,
     private doctorService: DoctorService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(({ id }) => {
+      this.loadDoctor(id);
+    });
+
+    //  this.doctorService.getDoctorById()
+
     this.loadHospitals();
     this.doctorForm = this.fb.group({
       name: ['', Validators.required],
@@ -38,6 +45,13 @@ export class DoctorComponent implements OnInit {
       this.selectedHospital = this.hospitals.find((h) => h._id === hospitalId);
     });
   }
+
+  loadDoctor(id: string) {
+    this.doctorService.getDoctorById(id).subscribe((doctor) => {
+      this.selectedDoctor = doctor;
+    });
+  }
+
   loadHospitals() {
     this.hospitalService
       .getHospitals()
@@ -46,10 +60,12 @@ export class DoctorComponent implements OnInit {
 
   saveDoctor() {
     const { name } = this.doctorForm.value;
-    this.doctorService.createDoctor(this.doctorForm.value).subscribe((res:any) => {
-      Swal.fire('Doctor creado', name, 'success');
-      this.router.navigate(['dashboard', 'doctor', res.doctor._id ]),
-        (err) => Swal.fire('Error', 'No se pudo crear doctor', 'error');
-    });
+    this.doctorService
+      .createDoctor(this.doctorForm.value)
+      .subscribe((res: any) => {
+        Swal.fire('Doctor creado', name, 'success');
+        this.router.navigate(['dashboard', 'doctor', res.doctor._id]),
+          (err) => Swal.fire('Error', 'No se pudo crear doctor', 'error');
+      });
   }
 }
