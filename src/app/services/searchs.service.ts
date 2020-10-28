@@ -85,4 +85,10 @@ export class SearchsService {
       })
     );
   }
+
+
+  searchAll(query: string){
+    const url = `${this.base_url}/search/${query}`;
+    return this.http.get(url, this.headers)
+  }
 }
