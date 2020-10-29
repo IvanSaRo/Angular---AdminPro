@@ -89,6 +89,6 @@ export class SearchsService {
 
   searchAll(query: string){
     const url = `${this.base_url}/search/${query}`;
-    return this.http.get(url, this.headers)
+    return this.http.get<any>(url, this.headers)
   }
 }
