@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { Grafica1Component } from './grafica1/grafica1.component';
+import { HeadersearchComponent } from './headersearch/headersearch.component';
 import { PagesComponent } from './pages.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -20,6 +21,7 @@ import { DoctorsComponent } from './mantenimiento/doctors/doctors.component';
 import { HospitalsComponent } from './mantenimiento/hospitals/hospitals.component';
 import { UsersComponent } from './mantenimiento/users/users.component';
 import { DoctorComponent } from './mantenimiento/doctors/doctor.component';
+
 
 
 
@@ -36,7 +38,8 @@ import { DoctorComponent } from './mantenimiento/doctors/doctor.component';
     UsersComponent,
     HospitalsComponent,
     DoctorsComponent,
-    DoctorComponent, 
+    DoctorComponent,
+    HeadersearchComponent
   ],
   imports: [
     CommonModule,

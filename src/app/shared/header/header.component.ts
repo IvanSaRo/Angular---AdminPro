@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
-import { SearchsService } from '../../services/searchs.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +12,7 @@ import { SearchsService } from '../../services/searchs.service';
 export class HeaderComponent {
   public user: User;
 
-  constructor(private userService: UserService, private searchService: SearchsService) {
+  constructor(private userService: UserService, private router: Router) {
     this.user = this.userService.user;
   }
 
@@ -20,9 +20,10 @@ export class HeaderComponent {
     this.userService.logout();
   }
 
-  search(query: string){
-    this.searchService.searchAll(query)
-                      .subscribe(res => console.log(res)
-                      )
+  search(query: string) {
+    if (query.length === 0) {
+      return;
+    }
+    this.router.navigate(['dashboard', 'search', `${query}`]);
   }
 }
