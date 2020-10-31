@@ -1,11 +1,23 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SidebarService {
 
-  menu:any[] = 
+  constructor(private router: Router){}
+  
+  public menu = [];
+  
+  loadMenu(){
+    this.menu = JSON.parse(localStorage.getItem('menu')) 
+
+    if (this.menu.length === 0) {
+      this.router.navigateByUrl('/login')
+    }
+  }
+  /* menu:any[] = 
   [
     { titulo: 'Dashboard!', 
       icono: 'mdi mdi-gauge', 
@@ -24,9 +36,9 @@ export class SidebarService {
         { titulo: 'Hospitales', url: 'hospitals'},
         
       ]}
-  ]
+  ] */
   
   
   
-  constructor() { }
+  
 }
