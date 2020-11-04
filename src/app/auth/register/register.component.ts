@@ -44,8 +44,10 @@ export class RegisterComponent {
 
     this.userService.createUser( this.registerForm.value )
         .subscribe( res => {
-           // navegar al dashboard
-        this.router.navigateByUrl('/');
+           
+          Swal.fire('Usuario creado', res.mail, 'success');
+          // navegar al dashboard
+           this.router.navigateByUrl('/');
           
           
         }, (err) => {
